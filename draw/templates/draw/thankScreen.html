@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Thank you screen</title>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <h1> Thank you, please look at the big screen now.</h1>
+    <script>
+        var socket = new WebSocket(
+            'ws://' + window.location.host + '/ws/draw');
+        socket.onmessage = function(receivedMessage) {
+        var received = receivedMessage.data;
+        var split = JSON.stringify(received).split(",")
+        if (split.length == 1) {
+            location.assign(split[0].substring(1, split[0].length-1))
+        }
+    }
+    </script>
+</body>

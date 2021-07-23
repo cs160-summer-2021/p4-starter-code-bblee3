@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Big Screen</title>
+    <style type="text/css">
+    </style>
+
+</head>
+<body>
+    <button onclick="next()">Next</button>
+    <h1 id="percentage"> 100.00% </h1>
+</body>
+<script>
+    var url = window.location.href;
+    var uid = Date.now() % 10000;
+    var current = 0;
+    var links = ["http://127.0.0.1:8000/draw/qTwo", "http://127.0.0.1:8000/draw/qThree", "http://127.0.0.1:8000/draw/qFour", "http://127.0.0.1:8000/draw/qFive"]
+    var correct = 0;
+    var correctAnswers = [3, 1, 0, 2, 3]
+    var total = 0;
+    var totalCorrect = 0;
+    var percent = 100;
+    var socket = new WebSocket(
+            'ws://' + window.location.host + '/ws/draw');
+
+    socket.onmessage = function(receivedMessage) {
+        var received = receivedMessage.data;
+        var split = JSON.stringify(received).split(",")
+        if (split.length == 2) {
+            console.log("Received: " + JSON.stringify(received));
+            var name = split[0].substring(1)
+            var answer = parseInt(split[1].substring(0,1))
+            total = total + 1;
+            if (answer == correctAnswers[correct]){
+                totalCorrect = totalCorrect + 1;
+            }
+            document.getElementById("percentage").textContent = ((totalCorrect/total)*100).toFixed(2) + "%"
+        }
+    }
+    socket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+         };
+    function next() {
+        correct = correct + 1;
+        total = 0;
+        totalCorrect = 0;
+        percent = 100
+        document.getElementById("percentage").textContent =  "100.00%"
+        if (current != 4) {
+            socket.send([links[current]]);
+            current = current + 1;
+        }
+    }
+</script>
