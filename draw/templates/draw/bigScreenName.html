@@ -56,7 +56,7 @@
             socket.send([links[current]]);
             current = current + 1;
         }
-        document.getElementById("incorrect").textContent = "People who got this incorrect:";
+        document.getElementById("people").textContent = "";
     }
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
