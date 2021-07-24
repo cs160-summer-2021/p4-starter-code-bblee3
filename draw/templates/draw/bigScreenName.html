@@ -49,17 +49,19 @@
         }
     }
     function next() {
-        correct = correct + 1;
-        total = 0;
-        totalCorrect = 0;
-        percent = 100
-        console.log(baseUrl)
-        document.getElementById("percentage").textContent =  "100.00%"
-        if (current != 4){
-            socket.send([links[current]]);
-            current = current + 1;
+        if (baseUrl != "") {
+            correct = correct + 1;
+            total = 0;
+            totalCorrect = 0;
+            percent = 100
+            console.log(baseUrl)
+            document.getElementById("percentage").textContent =  "100.00%"
+            if (current != 4){
+                socket.send([links[current]]);
+                current = current + 1;
+            }
+            document.getElementById("people").textContent = "";
         }
-        document.getElementById("people").textContent = "";
     }
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');

@@ -42,14 +42,16 @@
         console.error('Chat socket closed unexpectedly');
          };
     function next() {
-        correct = correct + 1;
-        total = 0;
-        totalCorrect = 0;
-        percent = 100
-        document.getElementById("percentage").textContent =  "100.00%"
-        if (current != 4) {
-            socket.send([links[current]]);
-            current = current + 1;
+        if (baseUrl != "") {
+            correct = correct + 1;
+            total = 0;
+            totalCorrect = 0;
+            percent = 100
+            document.getElementById("percentage").textContent =  "100.00%"
+            if (current != 4) {
+                socket.send([links[current]]);
+                current = current + 1;
+            }
         }
     }
 </script>
