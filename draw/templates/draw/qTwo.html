@@ -61,6 +61,11 @@
         var uid = Date.now() % 10000;
         var socket = new WebSocket(
             'ws://' + window.location.host + '/ws/draw');
+        var url = window.location.href.split("/");
+        var baseUrl = "";
+        for (i = 0; i < url.length-1; i++) {
+            baseUrl = baseUrl + "/" + url[i];
+        }
         function displayAnswer1() {
             if (document.getElementById("name").value == "") {
                 document.getElementById("error").textContent = "Please enter your name";
@@ -68,24 +73,31 @@
             }
             else {
                 if (document.getElementById('option-11').checked) {
-                    socket.send([document.getElementById("name").value + "," + 0]);
+                    socket.send([document.getElementById("name").value + "," + 0 + "," + baseUrl]);
                 }
                 if (document.getElementById('option-12').checked) {
-                    socket.send([document.getElementById("name").value + "," + 1]);
+                    socket.send([document.getElementById("name").value + "," + 1 + "," + baseUrl]);
                 }
                 if (document.getElementById('option-13').checked) {
-                    socket.send([document.getElementById("name").value + "," + 2]);
+                    socket.send([document.getElementById("name").value + "," + 2 + "," + baseUrl]);
                 }
                 if (document.getElementById('option-14').checked) {
-                    socket.send([document.getElementById("name").value + "," + 3]);
+                    socket.send([document.getElementById("name").value + "," + 3 + "," + baseUrl]);
                 }
-                location.assign("http://127.0.0.1:8000/draw/thankScreen")
+                location.assign(baseUrl.substring(1) + "/" + "thankScreen")
             }
         }
         socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
          };
-
+        socket.onmessage = function(receivedMessage) {
+            var received = receivedMessage.data;
+            var split = JSON.stringify(received).split(",");
+            console.log(split);
+            if (split == 1) {
+              location.assign(baseUrl.substring(1) + "/" + split)
+            }
+        }
       </script>
         <div id = "error" style = "position:absolute; left: 17%; top:80%;">
             <p></p>
