@@ -30,7 +30,7 @@
             console.log("Received: " + JSON.stringify(received));
             var name = split[0].substring(1)
             var answer = parseInt(split[1].substring(0,1))
-            var baseUrl = split[2].substring(1, split[2].length-1)
+            baseUrl = split[2].substring(1, split[2].length-1)
             total = total + 1;
             if (answer == correctAnswers[correct]){
                 totalCorrect = totalCorrect + 1;
@@ -47,6 +47,7 @@
             total = 0;
             totalCorrect = 0;
             percent = 100
+            console.log(baseUrl)
             document.getElementById("percentage").textContent =  "100.00%"
             if (current != 4) {
                 socket.send([links[current]]);
